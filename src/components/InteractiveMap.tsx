@@ -188,14 +188,20 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
               />
               {/* North-South Line (NS Red #D42E12) */}
               <path
-                d="M 380,100 L 420,240 L 480,330 L 520,430 L 550,500"
+                d="M 480,45 L 470,115 L 440,240 L 480,330 L 520,430 L 550,500"
                 fill="none"
                 stroke="#D42E12"
-                strokeWidth="3"
+                strokeWidth="3.5"
                 strokeLinecap="round"
               />
             </g>
           )}
+
+          {/* Northern Corridor Shading (Canberra & Khatib) */}
+          <ellipse cx="475" cy="85" rx="105" ry="60" fill="#E8F4EC" opacity="0.65" />
+          <text x="475" y="82" fill="#0F382A" fontSize="11" fontFamily="Playfair Display" fontStyle="italic" textAnchor="middle">
+            Khatib & Canberra Northern Corridor
+          </text>
 
           {/* Bedok & East Coast Heartland Shading */}
           <ellipse cx="860" cy="230" rx="95" ry="60" fill="#FFF3EB" opacity="0.6" />

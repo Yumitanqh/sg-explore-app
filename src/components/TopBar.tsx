@@ -3,8 +3,8 @@ import { Bookmark, Volume2, VolumeX, Sparkles, Server, HelpCircle, Compass } fro
 import { soundscape } from '../utils/soundscapes';
 
 interface TopBarProps {
-  activeTab: 'discover' | 'itineraries' | 'map' | 'cinema' | 'saved';
-  onSelectTab: (tab: 'discover' | 'itineraries' | 'map' | 'cinema' | 'saved') => void;
+  activeTab: 'discover' | 'itineraries' | 'map' | 'photos' | 'saved';
+  onSelectTab: (tab: 'discover' | 'itineraries' | 'map' | 'photos' | 'saved') => void;
   savedCount: number;
   onOpenSavedDrawer: () => void;
   onOpenApiDiagnostics?: () => void;
@@ -89,15 +89,15 @@ export const TopBar: React.FC<TopBarProps> = ({
           </button>
 
           <button
-            onClick={() => onSelectTab('cinema')}
+            onClick={() => onSelectTab('photos')}
             className={`whitespace-nowrap shrink-0 transition-colors py-1 relative ${
-              activeTab === 'cinema'
+              activeTab === 'photos'
                 ? 'text-[#0F382A] font-semibold'
                 : 'hover:text-[#1B2421]'
             }`}
           >
-            Visual Cinema
-            {activeTab === 'cinema' && (
+            Photos & Reviews
+            {activeTab === 'photos' && (
               <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#0F382A] rounded-full" />
             )}
           </button>
@@ -203,10 +203,10 @@ export const TopBar: React.FC<TopBarProps> = ({
           Map
         </button>
         <button
-          onClick={() => onSelectTab('cinema')}
-          className={`py-1 ${activeTab === 'cinema' ? 'text-[#0F382A] font-bold border-b-2 border-[#0F382A]' : ''}`}
+          onClick={() => onSelectTab('photos')}
+          className={`py-1 ${activeTab === 'photos' ? 'text-[#0F382A] font-bold border-b-2 border-[#0F382A]' : ''}`}
         >
-          Cinema
+          Photos & Reviews
         </button>
         <button
           onClick={() => onSelectTab('saved')}

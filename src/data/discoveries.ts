@@ -13,17 +13,29 @@ export interface SensoryNotes {
   signatureExperience: string;
 }
 
+export interface VisitorReview {
+  id: string;
+  author: string;
+  rating: number;
+  date: string;
+  tag: 'Food Quality' | 'Atmosphere' | 'Value' | 'Local Tip' | 'Family';
+  comment: string;
+  visitedDishOrActivity?: string;
+  verifiedLocal: boolean;
+}
+
 export interface DiscoverySpot {
   id: string;
   title: string;
   neighborhood: string;
-  heartland: string; // e.g., 'Bedok', 'Tampines', 'Toa Payoh', 'Tiong Bahru', 'Chinatown', etc.
+  heartland: string; // e.g., 'Bedok', 'Khatib', 'Canberra', 'Tampines', 'Toa Payoh', 'Tiong Bahru', etc.
   category: 'hawker' | 'heritage' | 'nature' | 'nightlife' | 'cafe' | 'heartland';
   categoryLabel: string;
   editorialSubtitle: string;
   description: string;
   extendedCuratorialStory: string;
   image: string;
+  galleryImages?: string[];
   rating: number;
   reviewsCount: number;
   mrt: MrtStation;
@@ -36,9 +48,393 @@ export interface DiscoverySpot {
   recommendedDuration: string;
   mustTryDishes?: string[];
   isLocalFavorite?: boolean;
+  reviews?: VisitorReview[];
 }
 
 export const DISCOVERY_SPOTS: DiscoverySpot[] = [
+  // --- KHATIB HEARTLAND & POPULAR SPOTS ---
+  {
+    id: 'khatib-chong-pang-market',
+    title: 'Chong Pang Market & Food Centre (Khatib)',
+    neighborhood: 'Khatib',
+    heartland: 'Khatib',
+    category: 'hawker',
+    categoryLabel: 'Heartland Hawker Haven',
+    editorialSubtitle: 'Famous Chong Pang Nasi Lemak, crispy chicken wings, and Lu Zhou braised duck',
+    description: 'The culinary heartbeat of the north, Chong Pang Market has drawn hungry night-owls and families across Singapore for over four decades.',
+    extendedCuratorialStory: 'Just minutes from Khatib MRT, Chong Pang Food Centre is celebrated for its irresistible chicken wing aroma and sweet sambal chili. Chong Pang Nasi Lemak serves warm basmati rice cooked in pure coconut milk with crispy wings, while Lu Zhou Braised Duck Rice slow-simmers tender duck in twenty aromatic herbal spices.',
+    image: '/src/assets/images/singapore_gastronomy_1794291676869.jpg',
+    galleryImages: [
+      '/src/assets/images/singapore_gastronomy_1794291676869.jpg',
+      '/src/assets/images/heritage_shophouses_1794291676090.jpg',
+      '/src/assets/images/cloud_forest_canopy_1794291675284.jpg'
+    ],
+    rating: 4.8,
+    reviewsCount: 15420,
+    mrt: {
+      code: 'NS14',
+      line: 'NS',
+      lineName: 'North-South Line',
+      station: 'Khatib',
+      exit: 'Exit B (8 min stroll or Bus 858/969)'
+    },
+    sensory: {
+      aroma: 'Crispy fried turmeric chicken wings, lemongrass coconut rice, and five-spice herbal duck gravy',
+      floraOrAtmosphere: 'High-energy traditional heartland food centre with loyal multi-generational diners',
+      bestTime: '11:30 AM (Lunch duck rice) or 19:30 PM (Evening hot wings)',
+      signatureExperience: 'Golden crispy chicken wing with fragrant coconut rice and sweet sambal chili'
+    },
+    coordinates: { x: 45, y: 15, lat: 1.4312, lng: 103.8291 },
+    priceTier: '$',
+    openingHours: '06:00 - 02:00 Daily',
+    address: '105 Yishun Ring Rd, Singapore 760105',
+    curatorTip: 'Order Chong Pang Nasi Lemak with extra otah and sunny side-up egg with runny yolk.',
+    recommendedDuration: '1.5 Hours',
+    mustTryDishes: ['Chong Pang Nasi Lemak', 'Lu Zhou Braised Duck Rice', 'Super Popiah & Carrot Cake', 'Chong Pang Huat Fried Chicken Wings'],
+    isLocalFavorite: true,
+    reviews: [
+      {
+        id: 'rev-khatib-1',
+        author: 'Daryl Goh (Yishun Resident)',
+        rating: 5,
+        date: '2 days ago',
+        tag: 'Food Quality',
+        comment: 'Best chicken wings in the entire northern region. The skin stays glass-crisp even after 20 minutes, and the sweet onion sambal is unmatched!',
+        visitedDishOrActivity: 'Chong Pang Nasi Lemak with 2 Wings',
+        verifiedLocal: true
+      },
+      {
+        id: 'rev-khatib-2',
+        author: 'Serene Tan',
+        rating: 5,
+        date: '1 week ago',
+        tag: 'Local Tip',
+        comment: 'Lu Zhou duck rice queue moves fast during lunch. Ask for their herbal soup on the side—super comforting and rich.',
+        visitedDishOrActivity: 'Braised Duck Rice Set',
+        verifiedLocal: true
+      }
+    ]
+  },
+  {
+    id: 'hometeamns-khatib-adventure-hq',
+    title: 'Adventure HQ @ HomeTeamNS Khatib',
+    neighborhood: 'Khatib',
+    heartland: 'Khatib',
+    category: 'heartland',
+    categoryLabel: 'Indoor Thrills & Adventure',
+    editorialSubtitle: 'Singapore’s largest indoor multi-tier adventure hub with 14m slides & rollercycles',
+    description: 'An adrenaline-packed 2,800 sqm 4-story indoor obstacle playground featuring Singapore’s longest indoor slide, ninja courses, and cave labyrinths.',
+    extendedCuratorialStory: 'Located right across Khatib MRT, Adventure HQ is Singapore’s premier urban adventure facility. It boasts a 14-meter indoor high element rollercycle, a 165-meter artificial subterranean caving system, 8 rock climbing walls, and a multi-tiered bouldering cave. Ideal for weekend challenges and active families.',
+    image: '/src/assets/images/cloud_forest_canopy_1794291675284.jpg',
+    galleryImages: [
+      '/src/assets/images/cloud_forest_canopy_1794291675284.jpg',
+      '/src/assets/images/supertree_twilight_1794291676270.jpg'
+    ],
+    rating: 4.8,
+    reviewsCount: 6890,
+    mrt: {
+      code: 'NS14',
+      line: 'NS',
+      lineName: 'North-South Line',
+      station: 'Khatib',
+      exit: 'Exit B (5 min sheltered path across Yishun Ave 2)'
+    },
+    sensory: {
+      aroma: 'Cool air-conditioned climbing chalk, fresh coffee from downstairs cafe, energetic music',
+      floraOrAtmosphere: 'Massive vertical steel scaffolding, glowing neon obstacle courses, exhilarating drops',
+      bestTime: '10:00 - 13:00 (Morning slots have smaller climbing queues)',
+      signatureExperience: 'Screaming down the 14-meter spiraling Fireman Slide in under 4 seconds'
+    },
+    coordinates: { x: 44, y: 16, lat: 1.4172, lng: 103.8345 },
+    priceTier: '$$$',
+    openingHours: '10:00 - 22:00 (Tue-Sun)',
+    address: '2 Yishun Walk, HomeTeamNS Khatib, Singapore 767944',
+    curatorTip: 'Wear covered sports shoes and comfortable athletic pants (no skirts/dresses for harness safety).',
+    recommendedDuration: '3 Hours',
+    mustTryDishes: ['Post-climb brunch at Suki-Suki Thai Hot Pot on Level 1'],
+    isLocalFavorite: true,
+    reviews: [
+      {
+        id: 'rev-khatib-adv-1',
+        author: 'Marcus & Rachel',
+        rating: 5,
+        date: '3 days ago',
+        tag: 'Family',
+        comment: 'Unbelievably fun! The indoor caving in total darkness with headlights was a thrill, and the staff are super attentive with safety harnesses.',
+        visitedDishOrActivity: 'All-Access 3-Hour Adventure Pass',
+        verifiedLocal: true
+      }
+    ]
+  },
+  {
+    id: 'lower-seletar-reservoir-khatib',
+    title: 'Lower Seletar Reservoir Park & Heritage Pier',
+    neighborhood: 'Khatib',
+    heartland: 'Khatib',
+    category: 'nature',
+    categoryLabel: 'Lakeside Boardwalks',
+    editorialSubtitle: 'Serene freshwater jetty, kayak rentals, and Family Bay water play alongside MRT',
+    description: 'A tranquil northern sanctuary offering sweeping open water vistas, fishing jetties, and calm breezes under mature rain tree canopies.',
+    extendedCuratorialStory: 'Just a short walk from Khatib MRT, Lower Seletar Reservoir Park is famous for its Heritage Bridge—a dramatic wooden pier that extends into calm reservoir waters. In the morning, mist floats over the water as dragon boaters and kayakers launch from the water sports center.',
+    image: '/src/assets/images/cloud_forest_canopy_1794291675284.jpg',
+    galleryImages: [
+      '/src/assets/images/cloud_forest_canopy_1794291675284.jpg',
+      '/src/assets/images/supertree_twilight_1794291676270.jpg'
+    ],
+    rating: 4.7,
+    reviewsCount: 7850,
+    mrt: {
+      code: 'NS14',
+      line: 'NS',
+      lineName: 'North-South Line',
+      station: 'Khatib',
+      exit: 'Exit A (6 min peaceful walk along Yishun Ave 1)'
+    },
+    sensory: {
+      aroma: 'Cool water spray, morning petrichor, and sweet frangipani blossoms along the promenade',
+      floraOrAtmosphere: 'Reflective mirror-like reservoir basin, gentle chirping of kingfishers',
+      bestTime: '07:00 - 09:00 AM (Sunrise over reservoir) or 18:00 PM (Sunset photography)',
+      signatureExperience: 'Walking to the tip of the Heritage Pier during sunset'
+    },
+    coordinates: { x: 47, y: 17, lat: 1.4112, lng: 103.8378 },
+    priceTier: '$',
+    openingHours: 'Open 24 Hours Daily (Park lit 19:00 - 07:00)',
+    address: 'Yishun Ave 1, Singapore 769139',
+    curatorTip: 'Rent a double kayak from the PA Water-Venture kiosk on weekends for an incredible morning on the water.',
+    recommendedDuration: '2 Hours',
+    mustTryDishes: ['Fresh sugar cane with lime from the park beverage kiosk'],
+    isLocalFavorite: true,
+    reviews: [
+      {
+        id: 'rev-khatib-ls-1',
+        author: 'Amanda Lin',
+        rating: 5,
+        date: '5 days ago',
+        tag: 'Atmosphere',
+        comment: 'One of Singapore’s most peaceful sunrise spots. Walking out on the wooden jetty with the morning breeze feels a world away from the city.',
+        visitedDishOrActivity: 'Sunset Pier Walk & Photography',
+        verifiedLocal: true
+      }
+    ]
+  },
+  {
+    id: 'khatib-928-yishun-laksa',
+    title: '928 Yishun Laksa (Famous Heartland Laksa)',
+    neighborhood: 'Khatib',
+    heartland: 'Khatib',
+    category: 'hawker',
+    categoryLabel: 'Hawker Royalty',
+    editorialSubtitle: 'Island-famous thick coconut laksa bowls with plump cockles and crispy tau pok',
+    description: 'A legendary stall that commands perpetual 30-minute queues for its impossibly rich and affordable $3.50 bowls of traditional Katong-style laksa.',
+    extendedCuratorialStory: 'Tucked beneath a heartland block between Khatib and Yishun, 928 Yishun Laksa has perfected the harmony between fragrant dried shrimp paste, rich coconut milk, and spicy rempah. Every bowl comes generously topped with tender fish cake, boiled egg, shredded chicken, and fresh cockles.',
+    image: '/src/assets/images/singapore_gastronomy_1794291676869.jpg',
+    galleryImages: [
+      '/src/assets/images/singapore_gastronomy_1794291676869.jpg',
+      '/src/assets/images/heritage_shophouses_1794291676090.jpg'
+    ],
+    rating: 4.8,
+    reviewsCount: 12100,
+    mrt: {
+      code: 'NS14',
+      line: 'NS',
+      lineName: 'North-South Line',
+      station: 'Khatib',
+      exit: 'Bus 858 or 10 min stroll toward Yishun Central'
+    },
+    sensory: {
+      aroma: 'Rich dried prawn rempah, crushed laksa leaves, and simmered coconut cream',
+      floraOrAtmosphere: 'Bustling void-deck eatery with queues stretching along the public walkway',
+      bestTime: '10:30 AM (Right when they open before the lunch peak forms)',
+      signatureExperience: 'Sipping the rich spoonful of spicy coconut broth paired with extra cockles'
+    },
+    coordinates: { x: 45, y: 14, lat: 1.4328, lng: 103.8372 },
+    priceTier: '$',
+    openingHours: '10:00 - 19:00 (Closed Sundays)',
+    address: '928 Yishun Central 1, #01-155, Singapore 760928',
+    curatorTip: 'Order the $4 large bowl with extra cockles and ask for the special homemade sambal chili paste on the side.',
+    recommendedDuration: '1 Hour',
+    mustTryDishes: ['Signature 928 Laksa (Large)', 'Handmade Crispy Popiah', 'Fresh Sugar Cane Juice'],
+    isLocalFavorite: true,
+    reviews: [
+      {
+        id: 'rev-khatib-laksa-1',
+        author: 'Kelvin Tay',
+        rating: 5,
+        date: 'Yesterday',
+        tag: 'Food Quality',
+        comment: 'Worth every second of the 25-minute queue. The coconut broth isn’t overly cloying, and the cockles are always super fresh and plump!',
+        visitedDishOrActivity: 'Large Laksa with extra chili',
+        verifiedLocal: true
+      }
+    ]
+  },
+
+  // --- CANBERRA HEARTLAND & POPULAR SPOTS ---
+  {
+    id: 'bukit-canberra-hawker-centre',
+    title: 'Bukit Canberra Integrated Hub & Hawker Centre',
+    neighborhood: 'Canberra',
+    heartland: 'Canberra',
+    category: 'hawker',
+    categoryLabel: 'Modern Heartland Hub',
+    editorialSubtitle: '12-hectare lifestyle sanctuary with 44 hawker stalls, butterfly garden, and sports arena',
+    description: 'Singapore’s newest flagship integrated community hub, harmonizing forest parkland with 44 curated hawker stalls and active recreation.',
+    extendedCuratorialStory: 'Opened in late 2022 near Canberra MRT, Bukit Canberra redefines heartland living. Set amidst heritage trees, the modern naturally ventilated food hall features famous heritage hawker brands alongside creative young hawkers. Stalls like Pang’s Hakka Noodles, Butter & Cream Bakery, and Ah Huat Wanton Mee serve thousands of northern residents daily.',
+    image: '/src/assets/images/singapore_gastronomy_1794291676869.jpg',
+    galleryImages: [
+      '/src/assets/images/singapore_gastronomy_1794291676869.jpg',
+      '/src/assets/images/heritage_shophouses_1794291676090.jpg',
+      '/src/assets/images/cloud_forest_canopy_1794291675284.jpg'
+    ],
+    rating: 4.8,
+    reviewsCount: 9230,
+    mrt: {
+      code: 'NS12',
+      line: 'NS',
+      lineName: 'North-South Line',
+      station: 'Canberra',
+      exit: 'Exit A (6 min scenic walk via Canberra Link sheltered connector)'
+    },
+    sensory: {
+      aroma: 'Charred wok hei, fresh egg tarts baking, and steaming herbal mutton broth',
+      floraOrAtmosphere: 'High 10-meter timber ceilings, gentle green landscaping, open breezy pavilions',
+      bestTime: '11:00 AM or 18:00 PM',
+      signatureExperience: 'Pang’s Hakka noodles with minced pork and fragrant fried shallots'
+    },
+    coordinates: { x: 42, y: 10, lat: 1.4428, lng: 103.8242 },
+    priceTier: '$',
+    openingHours: '07:00 - 22:00 Daily',
+    address: '21 Canberra Link, Singapore 756973',
+    curatorTip: 'Visit the rooftop community garden and outdoor exercise trails right after lunch.',
+    recommendedDuration: '2 Hours',
+    mustTryDishes: ['Pang’s Hakka Noodles', 'Butter & Cream Egg Tarts', 'Ah Huat Traditional Wanton Mee', 'Warung Ibu Nasi Padang'],
+    isLocalFavorite: true,
+    reviews: [
+      {
+        id: 'rev-canberra-1',
+        author: 'Eileen Toh (Canberra Resident)',
+        rating: 5,
+        date: '3 days ago',
+        tag: 'Value',
+        comment: 'So proud to have this in Canberra! It’s clean, breezy, and Pang’s Hakka noodles taste identical to their original recipe. Highly recommend!',
+        visitedDishOrActivity: 'Hakka Noodle Set + Egg Tarts',
+        verifiedLocal: true
+      },
+      {
+        id: 'rev-canberra-2',
+        author: 'Jonathan Sim',
+        rating: 5,
+        date: '1 week ago',
+        tag: 'Atmosphere',
+        comment: 'The architectural design with soaring timber ceilings makes it feel like an upscale resort food pavilion rather than a standard hawker centre.',
+        visitedDishOrActivity: 'Morning Kopi and Kaya Toast',
+        verifiedLocal: true
+      }
+    ]
+  },
+  {
+    id: 'sembawang-hot-spring-canberra',
+    title: 'Sembawang Hot Spring Park (Near Canberra MRT)',
+    neighborhood: 'Canberra',
+    heartland: 'Canberra',
+    category: 'nature',
+    categoryLabel: 'Natural Geothermal Sanctuary',
+    editorialSubtitle: 'Singapore’s only natural hot spring with cascading footbaths and egg-cooking stations',
+    description: 'A charming rustic park nestled in lush greenery where 70°C geothermal mineral water bubbles to the surface for public bathing and cooking.',
+    extendedCuratorialStory: 'Discovered in 1908, Sembawang Hot Spring is Singapore’s only natural geothermal marvel. The modern park features a multi-tiered cascading footbath pool where mineral water cools to a soothing 40°C. Visitors bring eggs, buckets, and salt to cook runny onsen eggs at the dedicated hot spring water collection fountain.',
+    image: '/src/assets/images/cloud_forest_canopy_1794291675284.jpg',
+    galleryImages: [
+      '/src/assets/images/cloud_forest_canopy_1794291675284.jpg',
+      '/src/assets/images/heritage_shophouses_1794291676090.jpg'
+    ],
+    rating: 4.8,
+    reviewsCount: 14200,
+    mrt: {
+      code: 'NS12',
+      line: 'NS',
+      lineName: 'North-South Line',
+      station: 'Canberra',
+      exit: 'Exit B (10 min stroll along Gambas Ave / Bus 858)'
+    },
+    sensory: {
+      aroma: 'Subtle sulfur mineral steam, sun-warmed tropical foliage, and steaming hot spring water',
+      floraOrAtmosphere: 'Fruit trees, edible plant plots, babbling water canals, and smiling multigenerational locals',
+      bestTime: '07:30 - 09:30 AM (Cool morning foot soaking) or 17:30 PM (Golden hour)',
+      signatureExperience: 'Boiling half-cooked onsen eggs with soy sauce and white pepper using fresh hot spring water'
+    },
+    coordinates: { x: 43, y: 11, lat: 1.4338, lng: 103.8219 },
+    priceTier: '$',
+    openingHours: '07:00 - 19:00 Daily',
+    address: 'Gambas Ave, Singapore 756952',
+    curatorTip: 'Bring your own small pail, towel, and 2 fresh eggs from Canberra Plaza supermarket. Cooking time is ~10-12 minutes for ideal soft yolk.',
+    recommendedDuration: '1.5 Hours',
+    mustTryDishes: ['Freshly boiled Hot Spring Onsen Eggs with dark soy sauce & pepper'],
+    isLocalFavorite: true,
+    reviews: [
+      {
+        id: 'rev-canberra-hs-1',
+        author: 'Vivian & Jason',
+        rating: 5,
+        date: '4 days ago',
+        tag: 'Family',
+        comment: 'Such a therapeutic experience! Soaking our feet in the tiered pool after a long week was pure bliss. Don’t forget to bring eggs to boil!',
+        visitedDishOrActivity: 'Footbath soaking + Egg cooking',
+        verifiedLocal: true
+      }
+    ]
+  },
+  {
+    id: 'canberra-white-restaurant-beehoon',
+    title: 'The Original Sembawang White Beehoon (Canberra Hub)',
+    neighborhood: 'Canberra',
+    heartland: 'Canberra',
+    category: 'hawker',
+    categoryLabel: 'Culinary Icon',
+    editorialSubtitle: 'The birthplace of white beehoon drenched in rich seafood egg gravy with prawns & clams',
+    description: 'An iconic culinary institution on Jalan Legundi (accessible from Canberra MRT) that birthed an island-wide white beehoon sensation.',
+    extendedCuratorialStory: 'Originally known as You Huat Sembawang White Beehoon, this historic restaurant single-handedly created the Singapore white beehoon phenomenon. Rice vermicelli is braised in homemade chicken and seafood bone broth until every strand absorbs silky, rich egg gravy, crowned with sweet sea prawns, tender squid, and fresh lime.',
+    image: '/src/assets/images/singapore_gastronomy_1794291676869.jpg',
+    galleryImages: [
+      '/src/assets/images/singapore_gastronomy_1794291676869.jpg',
+      '/src/assets/images/heritage_shophouses_1794291676090.jpg'
+    ],
+    rating: 4.8,
+    reviewsCount: 16800,
+    mrt: {
+      code: 'NS12',
+      line: 'NS',
+      lineName: 'North-South Line',
+      station: 'Canberra',
+      exit: 'Exit A (8 min stroll along Canberra Link into Jalan Legundi)'
+    },
+    sensory: {
+      aroma: 'Rich simmering seafood stock, smoky wok-tossed vermicelli, and zesty calamansi lime',
+      floraOrAtmosphere: 'Lively bustling restaurant with queues of families waiting for giant sharing platters',
+      bestTime: '11:15 AM or 17:30 PM (Before the dinner crowd packs the street)',
+      signatureExperience: 'Squeezing fresh lime over the steaming white beehoon and scooping up the rich broth'
+    },
+    coordinates: { x: 41, y: 11, lat: 1.4482, lng: 103.8262 },
+    priceTier: '$$',
+    openingHours: '11:00 - 21:30 Daily',
+    address: '22 Jln Legundi, Singapore 759072',
+    curatorTip: 'Order the Meat & Seafood Roll (Ngoh Hiang) and homemade sambal sweet potato leaves to accompany the white beehoon.',
+    recommendedDuration: '1.5 Hours',
+    mustTryDishes: ['Original Sembawang White Beehoon', 'Crispy Homemade Ngoh Hiang', 'Sambal Kang Kong', 'Salted Egg Squid'],
+    isLocalFavorite: true,
+    reviews: [
+      {
+        id: 'rev-canberra-wb-1',
+        author: 'Bernard Lim',
+        rating: 5,
+        date: 'Last week',
+        tag: 'Food Quality',
+        comment: 'There are many copycats, but the original Jalan Legundi outlet near Canberra is still unmatched. The broth is so flavorful and the wok hei is intense.',
+        visitedDishOrActivity: 'Signature Seafood White Beehoon (Medium)',
+        verifiedLocal: true
+      }
+    ]
+  },
+
   // --- BEDOK HEARTLAND & POPULAR FOOD PLACES ---
   {
     id: 'bedok-85-fengshan-market',
@@ -51,6 +447,10 @@ export const DISCOVERY_SPOTS: DiscoverySpot[] = [
     description: 'A bustling eastern heartland food sanctuary that comes alive from dusk till past midnight, packing hungry locals for steaming bowls of garlic-pork broth noodles and sizzled banana-leaf seafood.',
     extendedCuratorialStory: 'Bedok 85 is an institution in Singapore food lore. Unlike conventional dry bak chor mee, Bedok 85 pioneered the legendary soupy version—cloudy, rich pork broth laden with tender minced meat and fried pork lard. Complement your noodles with smoky charcoal-grilled sambal stingray from Chan BBQ and crispy oyster omelette under the hum of giant ceiling fans.',
     image: '/src/assets/images/singapore_gastronomy_1794291676869.jpg',
+    galleryImages: [
+      '/src/assets/images/singapore_gastronomy_1794291676869.jpg',
+      '/src/assets/images/heritage_shophouses_1794291676090.jpg'
+    ],
     rating: 4.8,
     reviewsCount: 16840,
     mrt: {
@@ -73,7 +473,19 @@ export const DISCOVERY_SPOTS: DiscoverySpot[] = [
     curatorTip: 'Stalls #01-07 (Xing Ji) and #01-04 (Seng Hiang) serve competing soup bak chor mee styles—order both to compare broth intensity.',
     recommendedDuration: '1.5 Hours',
     mustTryDishes: ['Xing Ji Soupy Bak Chor Mee', 'Chan BBQ Sambal Stingray', 'Chai Chee Pork Porridge', 'Bedok 85 Fried Oyster Omelette'],
-    isLocalFavorite: true
+    isLocalFavorite: true,
+    reviews: [
+      {
+        id: 'rev-b85-1',
+        author: 'Melvin Chew (KF Seetoh Food Guide)',
+        rating: 5,
+        date: '3 days ago',
+        tag: 'Food Quality',
+        comment: 'Xing Ji’s broth is pure pork marrow essence. The noodles remain springy in the soup and those crispy pork lard cubes take it to another dimension.',
+        visitedDishOrActivity: 'Bak Chor Mee Soup',
+        verifiedLocal: true
+      }
+    ]
   },
   {
     id: 'bedok-interchange-hawker-centre',
@@ -86,6 +498,10 @@ export const DISCOVERY_SPOTS: DiscoverySpot[] = [
     description: 'Located directly above the transit hub, this culinary landmark gathers three generations of master hawkers serving breakfast staples and fiery laksa.',
     extendedCuratorialStory: 'Bedok Interchange is celebrated for Bedok Chwee Kueh—silky steamed rice puddings crowned with savory-sweet braised chai poh (preserved radish) and housemade chili sambal. Follow up with Song Zhou Fried Carrot Cake, famous for its dark, sticky, caramelized sweet soy glaze and charred wok-tossed eggs.',
     image: '/src/assets/images/singapore_gastronomy_1794291676869.jpg',
+    galleryImages: [
+      '/src/assets/images/singapore_gastronomy_1794291676869.jpg',
+      '/src/assets/images/heritage_shophouses_1794291676090.jpg'
+    ],
     rating: 4.7,
     reviewsCount: 12430,
     mrt: {
@@ -591,6 +1007,8 @@ export const CATEGORIES = [
 
 export const NEIGHBORHOODS = [
   'All Singapore Areas',
+  'Khatib',
+  'Canberra',
   'Bedok',
   'Tampines',
   'Toa Payoh',

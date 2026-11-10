@@ -1,21 +1,21 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { DISCOVERY_SPOTS, DiscoverySpot, NEIGHBORHOODS } from './data/discoveries';
 import { CURATED_ITINERARIES } from './data/itineraries';
-import { VIDEO_ESSAYS, VideoEssay } from './data/videos';
+import { PHOTO_STORIES, PhotoStory } from './data/photoStories';
 import { TopBar } from './components/TopBar';
 import { EditorialHero } from './components/EditorialHero';
 import { CategoryFilters } from './components/CategoryFilters';
 import { DiscoveryCard } from './components/DiscoveryCard';
-import { VideoCard } from './components/VideoCard';
+import { PhotoStoryCard } from './components/PhotoStoryCard';
 import { InteractiveMap } from './components/InteractiveMap';
 import { ItineraryTimeline } from './components/ItineraryTimeline';
 import { CustomItineraryBuilder } from './components/CustomItineraryBuilder';
 import { SpotDetailModal } from './components/SpotDetailModal';
-import { VideoPlayerModal } from './components/VideoPlayerModal';
+import { PhotoGalleryModal } from './components/PhotoGalleryModal';
 import { SavedVoyageDrawer } from './components/SavedVoyageDrawer';
 import { ApiDiagnosticsModal } from './components/ApiDiagnosticsModal';
 import { EducationalTour } from './components/EducationalTour';
-import { Search, Compass, Sparkles, Filter, MapPin, ArrowRight, BookOpen, Layers, Server, Plus, Utensils, Check, Calendar, HelpCircle, Navigation } from 'lucide-react';
+import { Search, Compass, Sparkles, Filter, MapPin, ArrowRight, BookOpen, Layers, Server, Plus, Utensils, Check, Calendar, HelpCircle, Navigation, Camera, MessageSquareQuote } from 'lucide-react';
 
 interface OneMapSearchResult {
   SEARCHVAL: string;
@@ -31,14 +31,14 @@ interface OneMapSearchResult {
 }
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'discover' | 'itineraries' | 'map' | 'cinema' | 'saved'>('discover');
+  const [activeTab, setActiveTab] = useState<'discover' | 'itineraries' | 'map' | 'photos' | 'saved'>('discover');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedNeighborhood, setSelectedNeighborhood] = useState<string>('All Singapore Areas');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   // Modals & Drawers
   const [activeSpotDetail, setActiveSpotDetail] = useState<DiscoverySpot | null>(null);
-  const [activeVideoPlayer, setActiveVideoPlayer] = useState<VideoEssay | null>(null);
+  const [activePhotoStory, setActivePhotoStory] = useState<PhotoStory | null>(null);
   const [isSavedDrawerOpen, setIsSavedDrawerOpen] = useState<boolean>(false);
   const [isApiDiagnosticsOpen, setIsApiDiagnosticsOpen] = useState<boolean>(false);
 
@@ -161,8 +161,10 @@ export default function App() {
         spot.neighborhood.toLowerCase().includes(q) ||
         (spot.heartland && spot.heartland.toLowerCase().includes(q)) ||
         spot.editorialSubtitle.toLowerCase().includes(q) ||
+        spot.description.toLowerCase().includes(q) ||
         spot.sensory.aroma.toLowerCase().includes(q) ||
-        (spot.mustTryDishes && spot.mustTryDishes.some((dish) => dish.toLowerCase().includes(q)));
+        (spot.mustTryDishes && spot.mustTryDishes.some((dish) => dish.toLowerCase().includes(q))) ||
+        (spot.reviews && spot.reviews.some((r) => r.comment.toLowerCase().includes(q) || r.author.toLowerCase().includes(q) || (r.visitedDishOrActivity && r.visitedDishOrActivity.toLowerCase().includes(q))));
 
       return matchesCategory && matchesNeighborhood && matchesQuery;
     });
@@ -172,6 +174,8 @@ export default function App() {
 
   // Quick search keywords
   const QUICK_SEARCH_CHIPS = [
+    { label: 'Khatib Chong Pang & Laksa', query: 'Khatib' },
+    { label: 'Canberra Hot Spring & Hub', query: 'Canberra' },
     { label: 'Popular Bedok Food', query: 'Bedok' },
     { label: 'Toa Payoh Carrot Cake', query: 'Toa Payoh' },
     { label: 'Tampines Hawkers', query: 'Tampines' },
@@ -406,14 +410,35 @@ export default function App() {
                     No places found for "{searchQuery}"
                   </h4>
                   <p className="text-xs text-[#5A6C64] mb-4 max-w-md mx-auto">
-                    Try searching for famous Singapore heartlands like Bedok, Tampines, Toa Payoh, or dishes like Bak Chor Mee or Laksa.
+                    We have curated heartland recommendations across northern, eastern, and central Singapore. Try one of these popular neighborhoods:
                   </p>
-                  <div className="flex justify-center gap-2">
+                  <div className="flex flex-wrap justify-center gap-2 max-w-xl mx-auto">
                     <button
-                      onClick={() => setSearchQuery('Bedok')}
-                      className="px-4 py-2 bg-[#0F382A] text-white text-xs font-semibold rounded-[4px] cursor-pointer"
+                      onClick={() => {
+                        setSearchQuery('Khatib');
+                        setSelectedNeighborhood('All Singapore Areas');
+                      }}
+                      className="px-3 py-1.5 bg-[#0F382A] text-white text-xs font-semibold rounded-[4px] cursor-pointer hover:bg-[#1B2421]"
                     >
-                      Search "Bedok" Popular Food
+                      Khatib (Chong Pang & Adventure)
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSearchQuery('Canberra');
+                        setSelectedNeighborhood('All Singapore Areas');
+                      }}
+                      className="px-3 py-1.5 bg-[#0F382A] text-white text-xs font-semibold rounded-[4px] cursor-pointer hover:bg-[#1B2421]"
+                    >
+                      Canberra (Hot Spring & Hub)
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSearchQuery('Bedok');
+                        setSelectedNeighborhood('All Singapore Areas');
+                      }}
+                      className="px-3 py-1.5 bg-[#0F382A] text-white text-xs font-semibold rounded-[4px] cursor-pointer hover:bg-[#1B2421]"
+                    >
+                      Bedok (85 Fengshan & Cafes)
                     </button>
                     <button
                       onClick={() => {
@@ -421,9 +446,9 @@ export default function App() {
                         setSelectedNeighborhood('All Singapore Areas');
                         setSearchQuery('');
                       }}
-                      className="px-4 py-2 border border-[#E8E4DC] text-xs font-semibold rounded-[4px] cursor-pointer"
+                      className="px-3 py-1.5 border border-[#E8E4DC] text-xs font-semibold rounded-[4px] cursor-pointer hover:border-[#0F382A]"
                     >
-                      Clear Search
+                      Clear All Filters
                     </button>
                   </div>
                 </div>
@@ -442,33 +467,33 @@ export default function App() {
                 </cite>
               </div>
 
-              {/* Visual Cinema Preview Section */}
+              {/* Curated Photo Stories & Visitor Reviews Preview Section */}
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <span className="text-[11px] font-mono uppercase tracking-wider text-[#5A6C64] block">
-                      Motion & Sound
+                      Visual Archives & Authentic Reviews
                     </span>
                     <h2 className="font-serif text-2xl font-semibold text-[#0F382A]">
-                      Visual Essays & Documentaries
+                      Photo Stories & Visitor Reviews
                     </h2>
                   </div>
 
                   <button
-                    onClick={() => setActiveTab('cinema')}
+                    onClick={() => setActiveTab('photos')}
                     className="text-xs font-semibold text-[#0F382A] hover:text-[#F26440] transition-colors flex items-center gap-1 cursor-pointer"
                   >
-                    <span>View All Film Essays</span>
+                    <span>View All Photo Galleries & Reviews</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {VIDEO_ESSAYS.map((video) => (
-                    <VideoCard
-                      key={video.id}
-                      video={video}
-                      onPlayVideo={(v) => setActiveVideoPlayer(v)}
+                  {PHOTO_STORIES.slice(0, 4).map((story) => (
+                    <PhotoStoryCard
+                      key={story.id}
+                      story={story}
+                      onOpenStory={(s: PhotoStory) => setActivePhotoStory(s)}
                     />
                   ))}
                 </div>
@@ -543,27 +568,36 @@ export default function App() {
           </section>
         )}
 
-        {/* VIEW 4: VISUAL CINEMA SCREEN */}
-        {activeTab === 'cinema' && (
+        {/* VIEW 4: PHOTO STORIES & REVIEWS SCREEN */}
+        {activeTab === 'photos' && (
           <section className="max-w-[1320px] mx-auto px-6 py-10 space-y-8">
-            <div className="border-b border-[#E8E4DC] pb-6">
-              <span className="text-[11px] font-mono uppercase tracking-widest text-[#5A6C64] block mb-1">
-                Cinematic Field Dispatches
-              </span>
-              <h2 className="font-serif text-3xl lg:text-4xl font-semibold text-[#0F382A] mb-3">
-                Botanical Cinema & Cultural Documentaries
-              </h2>
-              <p className="text-sm text-[#5A6C64] max-w-2xl leading-relaxed">
-                Step inside high-resolution film essays detailing architectural biomimicry, generational hawker master recipes, and Straits Chinese shophouse preservation.
-              </p>
+            <div className="border-b border-[#E8E4DC] pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+              <div>
+                <span className="text-[11px] font-mono uppercase tracking-widest text-[#5A6C64] block mb-1">
+                  Curated Field Photography & Verified Visitor Experiences
+                </span>
+                <h2 className="font-serif text-3xl lg:text-4xl font-semibold text-[#0F382A] mb-3">
+                  Photo Stories & Local Visitor Reviews
+                </h2>
+                <p className="text-sm text-[#5A6C64] max-w-2xl leading-relaxed">
+                  Browse authentic photo galleries and first-hand reviews from locals and travelers across Singapore’s neighborhoods—including Khatib Chong Pang, Canberra Hot Spring Park, and Bedok 85.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-[#5A6C64]">Galleries:</span>
+                <span className="px-3 py-1 bg-white border border-[#E8E4DC] text-xs font-semibold text-[#0F382A] rounded-full">
+                  {PHOTO_STORIES.length} Verified Stories
+                </span>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {VIDEO_ESSAYS.map((video) => (
-                <VideoCard
-                  key={video.id}
-                  video={video}
-                  onPlayVideo={(v) => setActiveVideoPlayer(v)}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {PHOTO_STORIES.map((story) => (
+                <PhotoStoryCard
+                  key={story.id}
+                  story={story}
+                  onOpenStory={(s: PhotoStory) => setActivePhotoStory(s)}
                 />
               ))}
             </div>
@@ -581,10 +615,10 @@ export default function App() {
         isInItinerary={activeSpotDetail ? customItinerarySpotIds.includes(activeSpotDetail.id) : false}
       />
 
-      {/* Video Player Modal */}
-      <VideoPlayerModal
-        video={activeVideoPlayer}
-        onClose={() => setActiveVideoPlayer(null)}
+      {/* Photo Gallery & Visitor Review Modal */}
+      <PhotoGalleryModal
+        story={activePhotoStory}
+        onClose={() => setActivePhotoStory(null)}
       />
 
       {/* Saved Voyage Slide-Over Drawer */}

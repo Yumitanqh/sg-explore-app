@@ -5,7 +5,7 @@ interface EducationalTourProps {
   isOpen: boolean;
   onClose: () => void;
   onTriggerSearch?: (query: string) => void;
-  onNavigateTab?: (tab: 'discover' | 'itineraries' | 'map' | 'cinema' | 'saved') => void;
+  onNavigateTab?: (tab: 'discover' | 'itineraries' | 'map' | 'photos' | 'saved') => void;
 }
 
 interface TourStep {
@@ -32,14 +32,14 @@ export const EducationalTour: React.FC<EducationalTourProps> = ({
   const tourSteps: TourStep[] = [
     {
       title: 'Universal Singapore Search',
-      badge: 'Step 1 of 4 · Heartland & Hawker Discovery',
-      headline: 'Search Any Town or Food Hub (e.g., Bedok, Tampines, Toa Payoh)',
+      badge: 'Step 1 of 4 · Heartland & Local Food Discovery',
+      headline: 'Search Any Town (e.g., Khatib, Canberra, Bedok, Toa Payoh)',
       description:
-        'We’ve removed all tourist-only restrictions. Key in any neighborhood to uncover popular hawker stalls, famous soupy bak chor mee, midnight supper joints, and peaceful reservoir decks.',
-      tip: 'Try searching "Bedok" to see famous Bedok 85 supper stalls and Michelin Chwee Kueh.',
+        'We’ve removed all tourist-only restrictions. Search any Singapore neighborhood to uncover Chong Pang supper stalls in Khatib, Sembawang Hot Spring Park in Canberra, soupy bak chor mee in Bedok 85, and authentic reviews.',
+      tip: 'Try searching "Khatib" or "Canberra" to see northern food, hot springs, and adventure centers!',
       icon: <Search className="w-6 h-6 text-[#F26440]" />,
-      actionText: 'Search "Bedok" Now',
-      actionQuery: 'Bedok'
+      actionText: 'Search "Khatib" Now',
+      actionQuery: 'Khatib'
     },
     {
       title: 'Create Your Own Itinerary',
