@@ -15,7 +15,8 @@ import { PhotoGalleryModal } from './components/PhotoGalleryModal';
 import { SavedVoyageDrawer } from './components/SavedVoyageDrawer';
 import { ApiDiagnosticsModal } from './components/ApiDiagnosticsModal';
 import { EducationalTour } from './components/EducationalTour';
-import { Search, Compass, Sparkles, Filter, MapPin, ArrowRight, BookOpen, Layers, Server, Plus, Utensils, Check, Calendar, HelpCircle, Navigation, Camera, MessageSquareQuote } from 'lucide-react';
+import { MrtStationGuide } from './components/MrtStationGuide';
+import { Search, Compass, Sparkles, Filter, MapPin, ArrowRight, BookOpen, Layers, Server, Plus, Utensils, Check, Calendar, HelpCircle, Navigation, Camera, MessageSquareQuote, Train } from 'lucide-react';
 
 interface OneMapSearchResult {
   SEARCHVAL: string;
@@ -31,7 +32,7 @@ interface OneMapSearchResult {
 }
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'discover' | 'itineraries' | 'map' | 'photos' | 'saved'>('discover');
+  const [activeTab, setActiveTab] = useState<'discover' | 'mrt' | 'itineraries' | 'map' | 'photos' | 'saved'>('discover');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedNeighborhood, setSelectedNeighborhood] = useState<string>('All Singapore Areas');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -349,17 +350,28 @@ export default function App() {
                     />
                   </div>
 
-                  {/* Create My Own Itinerary Shortcut Button */}
-                  <button
-                    onClick={() => {
-                      setActiveTab('itineraries');
-                      setItineraryMode('custom');
-                    }}
-                    className="hidden sm:flex items-center gap-1.5 px-4 py-2 bg-[#F26440] text-white text-xs font-semibold rounded-[4px] hover:bg-[#ad3313] transition-all cursor-pointer shadow-xs shrink-0 ml-4"
-                  >
-                    <Calendar className="w-3.5 h-3.5" />
-                    <span>Create My Own Itinerary</span>
-                  </button>
+                  {/* MRT Station Guide & Create Itinerary Action Buttons */}
+                  <div className="hidden sm:flex items-center gap-2 shrink-0 ml-4">
+                    <button
+                      onClick={() => setActiveTab('mrt')}
+                      className="flex items-center gap-1.5 px-3.5 py-2 bg-[#0F382A] text-white text-xs font-semibold rounded-[4px] hover:bg-[#1B2421] transition-all cursor-pointer shadow-xs"
+                      title="Browse all Singapore MRT stations with food & activity recommendations"
+                    >
+                      <Train className="w-3.5 h-3.5 text-[#F5A623]" />
+                      <span>MRT Stations Guide</span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setActiveTab('itineraries');
+                        setItineraryMode('custom');
+                      }}
+                      className="flex items-center gap-1.5 px-3.5 py-2 bg-[#F26440] text-white text-xs font-semibold rounded-[4px] hover:bg-[#ad3313] transition-all cursor-pointer shadow-xs"
+                    >
+                      <Calendar className="w-3.5 h-3.5" />
+                      <span>Create My Own Itinerary</span>
+                    </button>
+                  </div>
                 </div>
 
                 {/* Filter Status Line */}
@@ -500,6 +512,17 @@ export default function App() {
               </div>
             </section>
           </div>
+        )}
+
+        {/* VIEW: ALL MRT STATIONS GUIDE (WHAT TO EAT & WHAT TO DO) */}
+        {activeTab === 'mrt' && (
+          <section className="max-w-[1320px] mx-auto px-6 py-10">
+            <MrtStationGuide
+              onSelectSpotDetail={(spot) => setActiveSpotDetail(spot)}
+              onAddStationToItinerary={(spot) => toggleItinerarySpot(spot.id)}
+              initialSearchQuery={searchQuery}
+            />
+          </section>
         )}
 
         {/* VIEW 2: ITINERARIES SCREEN (TOGGLE BETWEEN CURATED & CUSTOM BUILDER) */}
@@ -670,6 +693,13 @@ export default function App() {
               className="hover:text-[#0F382A] transition-colors cursor-pointer"
             >
               Discoveries
+            </button>
+            <button
+              onClick={() => setActiveTab('mrt')}
+              className="hover:text-[#0F382A] transition-colors cursor-pointer flex items-center gap-1 font-semibold"
+            >
+              <Train className="w-3 h-3 text-[#D42E12]" />
+              <span>MRT Guide</span>
             </button>
             <button
               onClick={() => {

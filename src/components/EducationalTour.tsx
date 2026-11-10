@@ -5,7 +5,7 @@ interface EducationalTourProps {
   isOpen: boolean;
   onClose: () => void;
   onTriggerSearch?: (query: string) => void;
-  onNavigateTab?: (tab: 'discover' | 'itineraries' | 'map' | 'photos' | 'saved') => void;
+  onNavigateTab?: (tab: 'discover' | 'mrt' | 'itineraries' | 'map' | 'photos' | 'saved') => void;
 }
 
 interface TourStep {

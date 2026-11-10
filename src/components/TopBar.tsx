@@ -3,8 +3,8 @@ import { Bookmark, Volume2, VolumeX, Sparkles, Server, HelpCircle, Compass } fro
 import { soundscape } from '../utils/soundscapes';
 
 interface TopBarProps {
-  activeTab: 'discover' | 'itineraries' | 'map' | 'photos' | 'saved';
-  onSelectTab: (tab: 'discover' | 'itineraries' | 'map' | 'photos' | 'saved') => void;
+  activeTab: 'discover' | 'mrt' | 'itineraries' | 'map' | 'photos' | 'saved';
+  onSelectTab: (tab: 'discover' | 'mrt' | 'itineraries' | 'map' | 'photos' | 'saved') => void;
   savedCount: number;
   onOpenSavedDrawer: () => void;
   onOpenApiDiagnostics?: () => void;
@@ -44,8 +44,8 @@ export const TopBar: React.FC<TopBarProps> = ({
           </span>
         </button>
 
-        {/* Zone 2: 4–5 single-line clean nav links */}
-        <nav className="hidden md:flex items-center gap-8 text-[15px] font-medium text-[#5A6C64]">
+        {/* Zone 2: Clean single-line nav links */}
+        <nav className="hidden lg:flex items-center gap-7 text-[15px] font-medium text-[#5A6C64]">
           <button
             onClick={() => onSelectTab('discover')}
             className={`whitespace-nowrap shrink-0 transition-colors py-1 relative ${
@@ -56,6 +56,21 @@ export const TopBar: React.FC<TopBarProps> = ({
           >
             Discoveries
             {activeTab === 'discover' && (
+              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#0F382A] rounded-full" />
+            )}
+          </button>
+
+          <button
+            onClick={() => onSelectTab('mrt')}
+            className={`whitespace-nowrap shrink-0 transition-colors py-1 relative flex items-center gap-1.5 ${
+              activeTab === 'mrt'
+                ? 'text-[#0F382A] font-semibold'
+                : 'hover:text-[#1B2421]'
+            }`}
+          >
+            <span className="w-2 h-2 rounded-full bg-[#D42E12]" />
+            <span>MRT Station Guide</span>
+            {activeTab === 'mrt' && (
               <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#0F382A] rounded-full" />
             )}
           </button>
@@ -189,6 +204,12 @@ export const TopBar: React.FC<TopBarProps> = ({
           className={`py-1 ${activeTab === 'discover' ? 'text-[#0F382A] font-bold border-b-2 border-[#0F382A]' : ''}`}
         >
           Discover
+        </button>
+        <button
+          onClick={() => onSelectTab('mrt')}
+          className={`py-1 ${activeTab === 'mrt' ? 'text-[#0F382A] font-bold border-b-2 border-[#0F382A]' : ''}`}
+        >
+          MRT
         </button>
         <button
           onClick={() => onSelectTab('itineraries')}
