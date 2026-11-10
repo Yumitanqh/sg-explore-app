@@ -9,13 +9,17 @@ interface SpotDetailModalProps {
   onClose: () => void;
   isSaved: boolean;
   onToggleSave: (id: string) => void;
+  onAddToItinerary?: (spot: DiscoverySpot) => void;
+  isInItinerary?: boolean;
 }
 
 export const SpotDetailModal: React.FC<SpotDetailModalProps> = ({
   spot,
   onClose,
   isSaved,
-  onToggleSave
+  onToggleSave,
+  onAddToItinerary,
+  isInItinerary = false
 }) => {
   if (!spot) return null;
 
@@ -157,6 +161,25 @@ export const SpotDetailModal: React.FC<SpotDetailModalProps> = ({
             </div>
           </div>
 
+          {/* Must-Try Dishes if available */}
+          {spot.mustTryDishes && spot.mustTryDishes.length > 0 && (
+            <div className="p-4 bg-[#FFF8F2] border border-[#FFDAD2] rounded-[4px] text-xs">
+              <span className="font-bold text-[#891D00] uppercase tracking-wider text-[11px] block mb-2">
+                ★ Must-Try Authentic Dishes & Special Orders:
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {spot.mustTryDishes.map((dish, dIdx) => (
+                  <span
+                    key={dIdx}
+                    className="bg-white border border-[#FFDAD2] text-[#AD3313] px-3 py-1 rounded-[3px] font-medium"
+                  >
+                    {dish}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Curator Insider Secret */}
           <div className="p-4 bg-[#E2ECE6] border border-[#C1ECD7] rounded-[4px] text-xs text-[#0F382A]">
             <span className="font-bold text-[11px] uppercase tracking-wider block mb-1">
@@ -169,18 +192,33 @@ export const SpotDetailModal: React.FC<SpotDetailModalProps> = ({
         </div>
 
         {/* Modal Action Footer */}
-        <div className="p-5 bg-white border-t border-[#E8E4DC] flex items-center justify-between gap-4">
-          <button
-            onClick={() => onToggleSave(spot.id)}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-[4px] font-semibold text-xs tracking-wide uppercase transition-all cursor-pointer ${
-              isSaved
-                ? 'bg-[#0F382A] text-white'
-                : 'bg-white border border-[#0F382A] text-[#0F382A] hover:bg-[#F5F3EF]'
-            }`}
-          >
-            <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-current' : ''}`} />
-            <span>{isSaved ? 'Saved in Voyage' : 'Save to My Voyage'}</span>
-          </button>
+        <div className="p-5 bg-white border-t border-[#E8E4DC] flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => onToggleSave(spot.id)}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-[4px] font-semibold text-xs tracking-wide uppercase transition-all cursor-pointer ${
+                isSaved
+                  ? 'bg-[#0F382A] text-white'
+                  : 'bg-white border border-[#0F382A] text-[#0F382A] hover:bg-[#F5F3EF]'
+              }`}
+            >
+              <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-current' : ''}`} />
+              <span>{isSaved ? 'Saved' : 'Save'}</span>
+            </button>
+
+            {onAddToItinerary && (
+              <button
+                onClick={() => onAddToItinerary(spot)}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-[4px] font-semibold text-xs tracking-wide uppercase transition-all cursor-pointer ${
+                  isInItinerary
+                    ? 'bg-[#E2ECE6] text-[#0F382A] hover:bg-[#c1ecd7]'
+                    : 'bg-[#F26440] text-white hover:bg-[#ad3313]'
+                }`}
+              >
+                <span>{isInItinerary ? '✓ In Itinerary' : '+ Add to Itinerary'}</span>
+              </button>
+            )}
+          </div>
 
           <button
             onClick={onClose}

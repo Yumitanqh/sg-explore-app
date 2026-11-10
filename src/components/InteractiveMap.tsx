@@ -178,6 +178,14 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
                 strokeWidth="3.5"
                 strokeLinecap="round"
               />
+              {/* East-West Line (EW Green #009645) */}
+              <path
+                d="M 120,440 L 250,420 L 420,380 L 520,370 L 680,320 L 840,240 L 980,220"
+                fill="none"
+                stroke="#009645"
+                strokeWidth="3.5"
+                strokeLinecap="round"
+              />
               {/* North-South Line (NS Red #D42E12) */}
               <path
                 d="M 380,100 L 420,240 L 480,330 L 520,430 L 550,500"
@@ -188,6 +196,12 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
               />
             </g>
           )}
+
+          {/* Bedok & East Coast Heartland Shading */}
+          <ellipse cx="860" cy="230" rx="95" ry="60" fill="#FFF3EB" opacity="0.6" />
+          <text x="860" y="225" fill="#891D00" fontSize="11" fontFamily="Playfair Display" fontStyle="italic" textAnchor="middle">
+            Bedok & Eastern Food Heartland
+          </text>
 
           {/* Interactive Spot Pins */}
           {spots.map((spot) => {

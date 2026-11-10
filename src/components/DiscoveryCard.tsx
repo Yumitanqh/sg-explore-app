@@ -2,13 +2,15 @@ import React from 'react';
 import { DiscoverySpot } from '../data/discoveries';
 import { MrtBadge } from './MrtBadge';
 import { GooglePlacesBadge } from './GooglePlacesBadge';
-import { Bookmark, Compass, Clock, ArrowUpRight } from 'lucide-react';
+import { Bookmark, Clock, ArrowUpRight, Plus, Utensils, Check } from 'lucide-react';
 
 interface DiscoveryCardProps {
   spot: DiscoverySpot;
   isSaved: boolean;
   onToggleSave: (id: string) => void;
   onSelectSpot: (spot: DiscoverySpot) => void;
+  onAddToItinerary?: (spot: DiscoverySpot) => void;
+  isInItinerary?: boolean;
   aspectRatio?: '4:3' | '16:9';
 }
 
@@ -17,6 +19,8 @@ export const DiscoveryCard: React.FC<DiscoveryCardProps> = ({
   isSaved,
   onToggleSave,
   onSelectSpot,
+  onAddToItinerary,
+  isInItinerary = false,
   aspectRatio = '4:3'
 }) => {
   return (
@@ -36,13 +40,20 @@ export const DiscoveryCard: React.FC<DiscoveryCardProps> = ({
         />
 
         {/* Ambient top & bottom scrims */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/25 pointer-events-none" />
 
-        {/* Top Badges: Neighborhood & Bookmark */}
+        {/* Top Badges: Heartland/Neighborhood & Bookmark */}
         <div className="absolute top-3 inset-x-3 flex items-center justify-between z-10">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-white bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20">
-            {spot.neighborhood}
-          </span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-white bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20">
+              {spot.heartland || spot.neighborhood}
+            </span>
+            {spot.isLocalFavorite && (
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#1B2421] bg-[#F5A623] px-2 py-0.5 rounded-full shadow-xs">
+                Local Favorite
+              </span>
+            )}
+          </div>
 
           <button
             onClick={(e) => {
@@ -91,9 +102,20 @@ export const DiscoveryCard: React.FC<DiscoveryCardProps> = ({
           </h3>
 
           {/* Subtitle / Lead */}
-          <p className="text-sm text-[#5A6C64] leading-relaxed line-clamp-2 mb-4 font-normal">
+          <p className="text-sm text-[#5A6C64] leading-relaxed line-clamp-2 mb-3 font-normal">
             {spot.editorialSubtitle}
           </p>
+
+          {/* Must Try Food Dishes Pill if available */}
+          {spot.mustTryDishes && spot.mustTryDishes.length > 0 && (
+            <div className="p-2.5 bg-[#FFF8F2] border border-[#FFDAD2] rounded-[4px] mb-3 text-xs text-[#AD3313]">
+              <span className="font-semibold text-[#891D00] uppercase tracking-wider text-[10px] flex items-center gap-1 mb-0.5">
+                <Utensils className="w-3 h-3 text-[#F26440]" />
+                <span>Must-Try Food Highlights:</span>
+              </span>
+              <span className="font-medium line-clamp-1">{spot.mustTryDishes.join(' · ')}</span>
+            </div>
+          )}
 
           {/* Sensory Highlight Note */}
           <div className="p-2.5 bg-[#FBF9F5] border border-[#E8E4DC] rounded-[4px] mb-4 text-xs text-[#414844]">
@@ -105,18 +127,37 @@ export const DiscoveryCard: React.FC<DiscoveryCardProps> = ({
         </div>
 
         {/* Bottom Action Strip */}
-        <div className="pt-3 border-t border-[#E8E4DC] flex items-center justify-between text-xs">
+        <div className="pt-3 border-t border-[#E8E4DC] flex items-center justify-between gap-2 text-xs">
           <button
             onClick={() => onSelectSpot(spot)}
-            className="flex items-center gap-1.5 font-semibold text-[#0F382A] hover:text-[#1B2421] transition-colors cursor-pointer"
+            className="flex items-center gap-1 font-semibold text-[#0F382A] hover:text-[#1B2421] transition-colors cursor-pointer"
           >
-            <span>Read Curatorial Guide</span>
+            <span>Curatorial Guide</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </button>
 
-          <span className="text-[#5A6C64] text-[11px] font-mono">
-            {spot.sensory.bestTime}
-          </span>
+          {onAddToItinerary && (
+            <button
+              onClick={() => onAddToItinerary(spot)}
+              className={`px-3 py-1.5 rounded-[4px] text-xs font-semibold flex items-center gap-1 transition-all cursor-pointer ${
+                isInItinerary
+                  ? 'bg-[#E2ECE6] text-[#0F382A] hover:bg-[#c1ecd7]'
+                  : 'bg-[#0F382A] text-white hover:bg-[#1B2421]'
+              }`}
+            >
+              {isInItinerary ? (
+                <>
+                  <Check className="w-3 h-3 text-[#0F382A]" />
+                  <span>In Itinerary</span>
+                </>
+              ) : (
+                <>
+                  <Plus className="w-3 h-3" />
+                  <span>+ Itinerary</span>
+                </>
+              )}
+            </button>
+          )}
         </div>
       </div>
     </article>

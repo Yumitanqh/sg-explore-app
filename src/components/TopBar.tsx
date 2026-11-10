@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bookmark, Volume2, VolumeX, Sparkles, Server } from 'lucide-react';
+import { Bookmark, Volume2, VolumeX, Sparkles, Server, HelpCircle, Compass } from 'lucide-react';
 import { soundscape } from '../utils/soundscapes';
 
 interface TopBarProps {
@@ -8,6 +8,7 @@ interface TopBarProps {
   savedCount: number;
   onOpenSavedDrawer: () => void;
   onOpenApiDiagnostics?: () => void;
+  onOpenEducationalTour?: () => void;
 }
 
 export const TopBar: React.FC<TopBarProps> = ({
@@ -16,6 +17,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   savedCount,
   onOpenSavedDrawer,
   onOpenApiDiagnostics,
+  onOpenEducationalTour,
 }) => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
@@ -122,6 +124,18 @@ export const TopBar: React.FC<TopBarProps> = ({
 
         {/* Zone 3: 1 Primary Action + Ambient Garden Sound Toggle + API Tester */}
         <div className="flex items-center gap-2.5 shrink-0">
+          {/* Educational Guided Tour */}
+          {onOpenEducationalTour && (
+            <button
+              onClick={onOpenEducationalTour}
+              title="Interactive Educational Tour: Learn how to search Bedok, build itineraries, and explore"
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-full border border-[#E8E4DC] bg-white text-[#0F382A] hover:bg-[#F5F3EF] hover:border-[#0F382A] transition-all cursor-pointer"
+            >
+              <HelpCircle className="w-3.5 h-3.5 text-[#F26440]" />
+              <span className="hidden sm:inline">How To Use</span>
+            </button>
+          )}
+
           {/* Serverless API Diagnostics */}
           {onOpenApiDiagnostics && (
             <button
