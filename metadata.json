@@ -1,0 +1,6 @@
+{
+  "name": "Botanical Voyage",
+  "description": "High-end travel editorial elegance, balancing Singapore’s lush garden-city greenery with vibrant modern gastronomy, heritage enclaves, and nightlife.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
