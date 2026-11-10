@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bookmark, Volume2, VolumeX, Sparkles } from 'lucide-react';
+import { Bookmark, Volume2, VolumeX, Sparkles, Server } from 'lucide-react';
 import { soundscape } from '../utils/soundscapes';
 
 interface TopBarProps {
@@ -7,13 +7,15 @@ interface TopBarProps {
   onSelectTab: (tab: 'discover' | 'itineraries' | 'map' | 'cinema' | 'saved') => void;
   savedCount: number;
   onOpenSavedDrawer: () => void;
+  onOpenApiDiagnostics?: () => void;
 }
 
 export const TopBar: React.FC<TopBarProps> = ({
   activeTab,
   onSelectTab,
   savedCount,
-  onOpenSavedDrawer
+  onOpenSavedDrawer,
+  onOpenApiDiagnostics,
 }) => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
@@ -118,8 +120,20 @@ export const TopBar: React.FC<TopBarProps> = ({
           </button>
         </nav>
 
-        {/* Zone 3: 1 Primary Action + Ambient Garden Sound Toggle */}
-        <div className="flex items-center gap-3 shrink-0">
+        {/* Zone 3: 1 Primary Action + Ambient Garden Sound Toggle + API Tester */}
+        <div className="flex items-center gap-2.5 shrink-0">
+          {/* Serverless API Diagnostics */}
+          {onOpenApiDiagnostics && (
+            <button
+              onClick={onOpenApiDiagnostics}
+              title="Inspect Serverless APIs (OneMap, YouTube v3, Books, Fonts)"
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-full border border-[#E8E4DC] bg-white text-[#5A6C64] hover:text-[#0F382A] hover:border-[#0F382A] transition-all cursor-pointer"
+            >
+              <Server className="w-3.5 h-3.5 text-[#0F382A]" />
+              <span className="hidden sm:inline font-mono">/api</span>
+            </button>
+          )}
+
           {/* Subtle Ambient Soundscape Toggle */}
           <button
             onClick={toggleSound}

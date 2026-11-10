@@ -12,7 +12,8 @@ import { ItineraryTimeline } from './components/ItineraryTimeline';
 import { SpotDetailModal } from './components/SpotDetailModal';
 import { VideoPlayerModal } from './components/VideoPlayerModal';
 import { SavedVoyageDrawer } from './components/SavedVoyageDrawer';
-import { Search, Compass, Sparkles, Filter, MapPin, ArrowRight, BookOpen, Layers } from 'lucide-react';
+import { ApiDiagnosticsModal } from './components/ApiDiagnosticsModal';
+import { Search, Compass, Sparkles, Filter, MapPin, ArrowRight, BookOpen, Layers, Server } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'discover' | 'itineraries' | 'map' | 'cinema' | 'saved'>('discover');
@@ -24,6 +25,7 @@ export default function App() {
   const [activeSpotDetail, setActiveSpotDetail] = useState<DiscoverySpot | null>(null);
   const [activeVideoPlayer, setActiveVideoPlayer] = useState<VideoEssay | null>(null);
   const [isSavedDrawerOpen, setIsSavedDrawerOpen] = useState<boolean>(false);
+  const [isApiDiagnosticsOpen, setIsApiDiagnosticsOpen] = useState<boolean>(false);
 
   // Saved Bookmarks with LocalStorage
   const [savedSpotIds, setSavedSpotIds] = useState<string[]>(() => {
@@ -90,6 +92,7 @@ export default function App() {
         }}
         savedCount={savedSpotIds.length}
         onOpenSavedDrawer={() => setIsSavedDrawerOpen(true)}
+        onOpenApiDiagnostics={() => setIsApiDiagnosticsOpen(true)}
       />
 
       <main className="flex-1">
@@ -330,6 +333,12 @@ export default function App() {
         onClearAll={handleClearAllSaved}
       />
 
+      {/* Serverless API Diagnostics Modal */}
+      <ApiDiagnosticsModal
+        isOpen={isApiDiagnosticsOpen}
+        onClose={() => setIsApiDiagnosticsOpen(false)}
+      />
+
       {/* Quiet Minimalist Editorial Footer */}
       <footer className="mt-16 border-t border-[#E8E4DC] bg-white py-10">
         <div className="max-w-[1320px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-[#5A6C64]">
@@ -363,6 +372,13 @@ export default function App() {
               className="hover:text-[#0F382A] transition-colors cursor-pointer"
             >
               Saved ({savedSpotIds.length})
+            </button>
+            <button
+              onClick={() => setIsApiDiagnosticsOpen(true)}
+              className="hover:text-[#0F382A] transition-colors cursor-pointer font-mono text-[11px] flex items-center gap-1 text-[#0F382A] bg-[#F5F3EF] px-2.5 py-1 rounded-full border border-[#E8E4DC]"
+            >
+              <Server className="w-3 h-3" />
+              <span>/api tester</span>
             </button>
           </div>
 
