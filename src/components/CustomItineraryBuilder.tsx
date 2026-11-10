@@ -389,12 +389,12 @@ export const CustomItineraryBuilder: React.FC<CustomItineraryBuilderProps> = ({
                   key={spot.id}
                   className="p-3 bg-white border border-[#E8E4DC] rounded-[4px] hover:border-[#79A28F] transition-all flex items-start gap-3 shadow-2xs group"
                 >
-                  <img
-                    src={spot.image}
-                    alt={spot.title}
-                    referrerPolicy="no-referrer"
-                    className="w-14 h-14 rounded-[3px] object-cover shrink-0 border border-[#E8E4DC]"
-                  />
+                  <div className="w-12 h-12 rounded-[3px] bg-gradient-to-br from-[#FAF8F3] to-[#EAE0CD] border border-[#DDD5C5] flex flex-col items-center justify-center shrink-0 p-1 text-center">
+                    <span className="text-[#F5A623] text-xs">★</span>
+                    <span className="font-mono text-xs font-bold text-[#1B2421] leading-none mt-0.5">
+                      {spot.rating.toFixed(1)}
+                    </span>
+                  </div>
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-1">

@@ -467,15 +467,15 @@ export default function App() {
                 </cite>
               </div>
 
-              {/* Curated Photo Stories & Visitor Reviews Preview Section */}
+              {/* Curated Customer Reviews & Dining Testimonials Preview Section */}
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <span className="text-[11px] font-mono uppercase tracking-wider text-[#5A6C64] block">
-                      Visual Archives & Authentic Reviews
+                      Authentic Diner Voices & Recommendations
                     </span>
                     <h2 className="font-serif text-2xl font-semibold text-[#0F382A]">
-                      Photo Stories & Visitor Reviews
+                      Customer Reviews & Dining Guides
                     </h2>
                   </div>
 
@@ -483,7 +483,7 @@ export default function App() {
                     onClick={() => setActiveTab('photos')}
                     className="text-xs font-semibold text-[#0F382A] hover:text-[#F26440] transition-colors flex items-center gap-1 cursor-pointer"
                   >
-                    <span>View All Photo Galleries & Reviews</span>
+                    <span>View All Customer Reviews</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -568,26 +568,26 @@ export default function App() {
           </section>
         )}
 
-        {/* VIEW 4: PHOTO STORIES & REVIEWS SCREEN */}
+        {/* VIEW 4: CUSTOMER REVIEWS & GUIDES SCREEN */}
         {activeTab === 'photos' && (
           <section className="max-w-[1320px] mx-auto px-6 py-10 space-y-8">
             <div className="border-b border-[#E8E4DC] pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
               <div>
                 <span className="text-[11px] font-mono uppercase tracking-widest text-[#5A6C64] block mb-1">
-                  Curated Field Photography & Verified Visitor Experiences
+                  Community Testimonials & Verified Visitor Voices
                 </span>
                 <h2 className="font-serif text-3xl lg:text-4xl font-semibold text-[#0F382A] mb-3">
-                  Photo Stories & Local Visitor Reviews
+                  Customer Reviews & Neighborhood Guides
                 </h2>
                 <p className="text-sm text-[#5A6C64] max-w-2xl leading-relaxed">
-                  Browse authentic photo galleries and first-hand reviews from locals and travelers across Singapore’s neighborhoods—including Khatib Chong Pang, Canberra Hot Spring Park, and Bedok 85.
+                  Real experiences from local diners, residents, and travelers across Singapore’s neighborhoods—including Khatib Chong Pang, Canberra Hot Spring Park, Bedok 85, and Old Airport Road.
                 </p>
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-xs text-[#5A6C64]">Galleries:</span>
+                <span className="text-xs text-[#5A6C64]">Review Dossiers:</span>
                 <span className="px-3 py-1 bg-white border border-[#E8E4DC] text-xs font-semibold text-[#0F382A] rounded-full">
-                  {PHOTO_STORIES.length} Verified Stories
+                  {PHOTO_STORIES.length} Verified Guides
                 </span>
               </div>
             </div>

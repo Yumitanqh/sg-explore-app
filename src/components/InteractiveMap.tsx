@@ -293,12 +293,15 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
         {activeSpot && (
           <div className="absolute bottom-4 left-4 right-4 sm:right-auto sm:w-[360px] bg-white/95 backdrop-blur-md border border-[#E8E4DC] rounded-[4px] p-4 shadow-[0_8px_24px_-4px_rgba(15,56,42,0.12)] transition-all duration-300 z-30">
             <div className="flex items-start gap-3">
-              <img
-                src={activeSpot.image}
-                alt={activeSpot.title}
-                referrerPolicy="no-referrer"
-                className="w-20 h-20 rounded-[3px] object-cover shrink-0 border border-[#E8E4DC]"
-              />
+              <div className="w-16 h-16 rounded-[3px] bg-gradient-to-br from-[#FAF8F3] to-[#EAE0CD] border border-[#DDD5C5] flex flex-col items-center justify-center shrink-0 p-1 text-center shadow-2xs">
+                <span className="text-[#F5A623] text-sm">★</span>
+                <span className="font-mono text-sm font-bold text-[#1B2421] leading-none mt-0.5">
+                  {activeSpot.rating.toFixed(1)}
+                </span>
+                <span className="text-[9px] font-mono text-[#5A6C64] uppercase mt-0.5">
+                  Customer
+                </span>
+              </div>
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5 text-[11px] text-[#5A6C64] mb-1 font-medium">

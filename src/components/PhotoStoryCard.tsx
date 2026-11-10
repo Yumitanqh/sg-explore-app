@@ -12,39 +12,46 @@ export const PhotoStoryCard: React.FC<PhotoStoryCardProps> = ({ story, onOpenSto
 
   return (
     <article className="group bg-white border border-[#E8E4DC] rounded-[4px] overflow-hidden flex flex-col transition-all duration-300 hover:shadow-[0_8px_24px_-4px_rgba(15,56,42,0.08)] hover:border-[#79A28F]">
-      {/* Visual Image Frame */}
+      {/* Customer Review Showcase in place of picture */}
       <div
         onClick={() => onOpenStory(story)}
-        className="relative w-full aspect-[16/10] overflow-hidden bg-[#1B2421] cursor-pointer"
+        className="relative w-full aspect-[16/10] overflow-hidden bg-gradient-to-br from-[#FAF8F3] via-[#F4EDE0] to-[#E9DFCD] border-b border-[#E8E4DC] p-5 cursor-pointer flex flex-col justify-between"
       >
-        <img
-          src={story.coverImage}
-          alt={story.title}
-          referrerPolicy="no-referrer"
-          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-        />
+        {/* Background decorative quote mark */}
+        <span
+          aria-hidden="true"
+          className="absolute -top-3 left-4 text-7xl font-serif text-[#0F382A]/10 pointer-events-none select-none font-bold"
+        >
+          “
+        </span>
 
-        {/* Scrim Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-black/30 pointer-events-none" />
-
-        {/* Top Badges: Neighborhood & Photo Count */}
-        <div className="absolute top-3 inset-x-3 flex items-center justify-between z-10">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-white bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20">
+        {/* Top Badges: Neighborhood & Review Count */}
+        <div className="relative z-10 flex items-center justify-between gap-2">
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-[#0F382A] bg-white/90 backdrop-blur-xs px-2.5 py-1 rounded-full border border-[#D5CFC3] shadow-2xs">
             {story.neighborhood}
           </span>
 
-          <span className="text-[11px] font-mono font-medium text-white bg-[#0F382A]/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20 flex items-center gap-1.5 shadow-xs">
-            <Camera className="w-3 h-3 text-[#A5D0BC]" />
-            <span>{story.gallery.length} Curated Photos</span>
+          <span className="text-[11px] font-mono font-medium text-[#0F382A] bg-[#E2ECE6] px-2.5 py-1 rounded-full border border-[#C1ECD7] flex items-center gap-1.5 shadow-2xs">
+            <Star className="w-3 h-3 fill-[#F5A623] text-[#F5A623]" />
+            <span>{story.reviews.length} Verified Reviews</span>
           </span>
         </div>
 
-        {/* Bottom Photographer Caption */}
-        <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs z-10 pointer-events-none">
-          <span className="text-[11px] font-mono text-white/90 truncate max-w-[220px]">
-            Photo Dispatch by {story.photographer.split('·')[0]}
+        {/* Highlight Customer Quote */}
+        {topReview && (
+          <div className="relative z-10 my-auto py-1">
+            <blockquote className="font-serif text-sm sm:text-[15px] italic text-[#1B2421] leading-snug line-clamp-3 group-hover:text-[#0F382A] transition-colors">
+              “{topReview.quote}”
+            </blockquote>
+          </div>
+        )}
+
+        {/* Bottom Reviewer Credit */}
+        <div className="relative z-10 pt-2 border-t border-[#D5CFC3]/60 flex items-center justify-between text-xs text-[#5A6C64]">
+          <span className="text-[11px] font-semibold text-[#1B2421] truncate max-w-[200px]">
+            {topReview ? topReview.author : story.photographer}
           </span>
-          <span className="text-[10px] uppercase tracking-wider bg-white/20 backdrop-blur-md px-2 py-0.5 rounded">
+          <span className="text-[10px] uppercase tracking-wider bg-white/80 px-2 py-0.5 rounded border border-[#D5CFC3]">
             {story.activityOrTheme.split('&')[0]}
           </span>
         </div>

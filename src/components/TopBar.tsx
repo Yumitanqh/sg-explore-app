@@ -96,7 +96,7 @@ export const TopBar: React.FC<TopBarProps> = ({
                 : 'hover:text-[#1B2421]'
             }`}
           >
-            Photos & Reviews
+            Customer Reviews
             {activeTab === 'photos' && (
               <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#0F382A] rounded-full" />
             )}
@@ -206,7 +206,7 @@ export const TopBar: React.FC<TopBarProps> = ({
           onClick={() => onSelectTab('photos')}
           className={`py-1 ${activeTab === 'photos' ? 'text-[#0F382A] font-bold border-b-2 border-[#0F382A]' : ''}`}
         >
-          Photos & Reviews
+          Reviews
         </button>
         <button
           onClick={() => onSelectTab('saved')}

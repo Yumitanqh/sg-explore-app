@@ -28,6 +28,7 @@ export const PhotoGalleryModal: React.FC<PhotoGalleryModalProps> = ({ story, onC
 
   if (!story) return null;
 
+  const allReviews = reviewsList.length > 0 ? reviewsList : (story.reviews || []);
   const currentPhoto = story.gallery[activePhotoIdx] || story.gallery[0];
 
   const handlePrevPhoto = () => {
@@ -85,72 +86,93 @@ export const PhotoGalleryModal: React.FC<PhotoGalleryModalProps> = ({ story, onC
 
         {/* Modal Scrollable Body */}
         <div className="overflow-y-auto flex-1 p-5 sm:p-7 space-y-7">
-          {/* Main Photo Gallery Stage */}
+          {/* Main Customer Reviews Carousel Stage */}
           <div className="space-y-3">
-            <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full bg-[#1B2421] rounded-[4px] overflow-hidden shadow-md">
-              <img
-                src={currentPhoto.url}
-                alt={currentPhoto.caption}
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover transition-all duration-300"
-              />
-
-              {/* Scrim Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
-
-              {/* Left / Right Navigation Buttons */}
-              <button
-                onClick={handlePrevPhoto}
-                className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/80 transition-all cursor-pointer backdrop-blur-xs"
-                title="Previous photo"
+            <div className="relative w-full bg-gradient-to-br from-[#FAF8F3] via-[#F4EDE0] to-[#EAE0CD] border border-[#DDD5C5] rounded-[4px] p-6 sm:p-8 shadow-xs min-h-[220px] flex flex-col justify-between">
+              {/* Background decorative quote watermark */}
+              <span
+                aria-hidden="true"
+                className="absolute -top-6 left-6 text-9xl font-serif text-[#0F382A]/10 pointer-events-none select-none font-bold"
               >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
+                “
+              </span>
 
-              <button
-                onClick={handleNextPhoto}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/80 transition-all cursor-pointer backdrop-blur-xs"
-                title="Next photo"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
+              {/* Top Row: Review index & Tag */}
+              <div className="relative z-10 flex items-center justify-between gap-2">
+                <div className="flex items-center gap-1.5">
+                  <div className="flex text-[#F5A623]">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <span key={i} className="text-sm">★</span>
+                    ))}
+                  </div>
+                  <span className="text-xs font-mono font-bold text-[#1B2421]">5.0</span>
+                  <span className="text-[10px] uppercase font-semibold text-[#0F382A] bg-[#E2ECE6] px-2 py-0.5 rounded-full border border-[#C1ECD7]">
+                    Verified Customer Voice
+                  </span>
+                </div>
 
-              {/* Top Tag & Index */}
-              <div className="absolute top-3 right-3 flex items-center gap-2">
-                <span className="text-xs font-mono text-white bg-black/60 px-2.5 py-1 rounded-sm backdrop-blur-md">
-                  {activePhotoIdx + 1} / {story.gallery.length}
+                <span className="text-xs font-mono text-[#5A6C64] bg-white/80 px-2.5 py-1 rounded border border-[#DDD5C5]">
+                  Review {activePhotoIdx + 1} of {allReviews.length}
                 </span>
               </div>
 
-              {/* Bottom Caption & Location */}
-              <div className="absolute bottom-3 left-3 right-3 text-white space-y-1">
-                <span className="text-[10px] uppercase font-mono tracking-wider text-[#A5D0BC] bg-black/50 px-2 py-0.5 rounded-sm inline-block">
-                  {currentPhoto.tag} · {currentPhoto.location}
-                </span>
-                <p className="text-sm font-medium text-white/95 drop-shadow-sm">
-                  {currentPhoto.caption}
-                </p>
+              {/* Review Quote */}
+              <div className="relative z-10 my-4">
+                <blockquote className="font-serif text-lg sm:text-xl italic text-[#0F382A] leading-snug">
+                  “{allReviews[activePhotoIdx]?.quote || allReviews[0]?.quote}”
+                </blockquote>
+
+                {allReviews[activePhotoIdx]?.dishOrActivity && (
+                  <p className="mt-2 text-xs font-medium text-[#891D00]">
+                    Customer Recommended Order: <strong>{allReviews[activePhotoIdx].dishOrActivity}</strong>
+                  </p>
+                )}
+              </div>
+
+              {/* Bottom Customer Info & Carousel Controls */}
+              <div className="relative z-10 pt-3 border-t border-[#DDD5C5] flex items-center justify-between gap-3 text-xs">
+                <div>
+                  <p className="font-semibold text-[#1B2421]">
+                    {allReviews[activePhotoIdx]?.author || allReviews[0]?.author}
+                  </p>
+                  <p className="text-[10px] text-[#5A6C64]">
+                    {allReviews[activePhotoIdx]?.date || allReviews[0]?.date} · {story.neighborhood}
+                  </p>
+                </div>
+
+                {/* Previous / Next Review Switchers */}
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => setActivePhotoIdx((prev) => (prev > 0 ? prev - 1 : allReviews.length - 1))}
+                    className="p-1.5 rounded bg-white border border-[#DDD5C5] hover:bg-[#0F382A] hover:text-white transition-colors cursor-pointer text-xs font-semibold"
+                    title="Previous review"
+                  >
+                    ← Prev
+                  </button>
+                  <button
+                    onClick={() => setActivePhotoIdx((prev) => (prev < allReviews.length - 1 ? prev + 1 : 0))}
+                    className="p-1.5 rounded bg-[#0F382A] text-white hover:bg-[#1B2421] transition-colors cursor-pointer text-xs font-semibold"
+                    title="Next review"
+                  >
+                    Next Review →
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* Thumbnail Navigation Strip */}
+            {/* Quick Customer Testimonial Selector Strip */}
             <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-              {story.gallery.map((img, idx) => (
+              {allReviews.map((rev, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActivePhotoIdx(idx)}
-                  className={`relative w-20 h-14 rounded-[3px] overflow-hidden shrink-0 border-2 transition-all cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-[3px] border text-xs font-medium shrink-0 transition-all cursor-pointer ${
                     activePhotoIdx === idx
-                      ? 'border-[#0F382A] scale-105 shadow-sm'
-                      : 'border-transparent opacity-60 hover:opacity-100'
+                      ? 'bg-[#0F382A] text-white border-[#0F382A] shadow-2xs'
+                      : 'bg-white border-[#E8E4DC] text-[#414844] hover:bg-[#F5F3EF]'
                   }`}
                 >
-                  <img
-                    src={img.url}
-                    alt={img.caption}
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover"
-                  />
+                  <span className="font-semibold">{rev.author.split(' ')[0]}</span> · ★ 5.0
                 </button>
               ))}
             </div>
